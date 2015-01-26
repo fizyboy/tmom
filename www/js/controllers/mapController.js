@@ -6,6 +6,7 @@ angular.module('tmomApp').controller('MapController',
     '$ionicPopup',
     'LocationsService',
     'InstructionsService',
+    'Camera',
     function(
       $scope,
       $cordovaGeolocation,
@@ -13,7 +14,8 @@ angular.module('tmomApp').controller('MapController',
       $ionicModal,
       $ionicPopup,
       LocationsService,
-      InstructionsService
+      InstructionsService,
+      Camera
       ) {
 
       /**
@@ -38,6 +40,7 @@ angular.module('tmomApp').controller('MapController',
 
         $scope.map = {
           defaults: {
+            //tileLayer: 'http://api.smartmapsapi.com/api/eaa8ec1d-8379-40a6-bcbd-0471d8c01b53/tile/street/{z}/{x}/{y}.png',            
             tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
             maxZoom: 18,
             zoomControlPosition: 'topleft'
@@ -108,6 +111,32 @@ angular.module('tmomApp').controller('MapController',
         };
 
       };
+
+      /**
+      * Take Picture from Camera
+      *
+      */
+      $scope.getPhoto = function() {
+
+          $scope.getPhoto = function() 
+          {
+            Camera.getPicture().then(
+
+            function(imageURI) 
+            {
+              console.log(imageURI);
+              $scope.lastPhoto = imageURI;              
+            }, 
+            function(err) {
+              console.err(err);
+            }
+
+            );
+          };
+
+      };
+
+
 
       /**
        * Center map on user's current position
